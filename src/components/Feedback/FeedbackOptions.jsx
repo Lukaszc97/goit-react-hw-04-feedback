@@ -1,20 +1,60 @@
-import React from 'react';
-import styles from './Feedback.module.css';
-import PropTypes from 'prop-types';
-const FeedbackOptions = ({ options, onLeaveFeedback }) => {
+import React, { useState, useEffect } from 'react';
+import FeedbackOptions from './Feedback/FeedbackOptions';
+import Statistics from './Statistics/Statistics';
+import Notification from './Notification/Notification';
+
+function App() {
+  const initialFeedbackStats = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
+
+  const [feedbackStats, setFeedbackStats] = useState(
+    JSON.parse(localStorage.getItem('feedbackStats')) || initialFeedbackStats
+  );
+
+  const handleFeedback = type => {
+    setFeedbackStats(prevStats => ({
+      ...prevStats,
+      [type]: prevStats[type] + 1,
+    }));
+  };
+
+  const hasFeedback = Object.values(feedbackStats).some(value => value > 0);
+
+  useEffect(() => {
+    localStorage.setItem('feedbackStats', JSON.stringify(feedbackStats));
+  }, [feedbackStats]);
+
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>Give Feedback</h2>
-      {options.map(option => (
-        <button className={styles.button} key={option} onClick={() => onLeaveFeedback(option)}>
-          {option}
-        </button>
-      ))}
+    <div
+      style={{
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: 20,
+        color: '#010101',
+      }}
+    >
+      <h1>Expresso Cafe Feedback</h1>
+      <FeedbackOptions
+        options={['good', 'neutral', 'bad']}
+        onLeaveFeedback={handleFeedback}
+      />
+      {hasFeedback ? (
+        <Statistics
+          good={feedbackStats.good}
+          neutral={feedbackStats.neutral}
+          bad={feedbackStats.bad}
+        />
+      ) : (
+        <Notification message="There is no feedback" />
+      )}
     </div>
   );
-};
-FeedbackOptions.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onLeaveFeedback: PropTypes.func.isRequired,
-};
-export default FeedbackOptions;
+}
+
+export default App;
