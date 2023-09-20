@@ -1,0 +1,17 @@
+.container {
+  background-color: #f9f9f9;
+  padding: 16px;
+  margin-top: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.label {
+  font-size: 20px;
+  color: #333;
+}
+
+.value {
+  font-size: 24px;
+  color: #007bff;
+}

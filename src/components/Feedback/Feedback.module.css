@@ -1,0 +1,10 @@
+.container{
+text-align: center;
+}
+h2{
+      margin-bottom: 10px;
+}
+button{
+    margin: 5px;
+    justify-content: center;
+}
