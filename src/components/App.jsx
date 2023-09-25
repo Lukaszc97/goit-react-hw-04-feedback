@@ -4,24 +4,22 @@ import Statistics from './Statistics/Statistics';
 import Notification from './Notification/Notification';
 
 function App() {
-  // Stan początkowy
   const initialFeedbackStats = {
     good: 0,
     neutral: 0,
     bad: 0,
   };
 
-  // Stan feedbackStats oraz funkcja do jego aktualizacji
   const [feedbackStats, setFeedbackStats] = useState(
     JSON.parse(localStorage.getItem('feedbackStats')) || initialFeedbackStats
   );
 
-  // Efekt do zapisu stanu feedbackStats w localStorage
+ 
   useEffect(() => {
     localStorage.setItem('feedbackStats', JSON.stringify(feedbackStats));
   }, [feedbackStats]);
 
-  // Obsługa kliknięcia przycisków feedback
+
   const handleFeedback = type => {
     setFeedbackStats(prevStats => ({
       ...prevStats,
@@ -29,7 +27,7 @@ function App() {
     }));
   };
 
-  // Sprawdzenie, czy są jakieś dane w feedbackStats
+
   const hasFeedback = Object.values(feedbackStats).some(value => value > 0);
 
   return (
